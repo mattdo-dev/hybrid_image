@@ -93,16 +93,16 @@ def gaussian_blur_kernel_2d(sigma: float, height: int, width: int):
         Return a kernel of dimensions height x width such that convolving it
         with an image results in a Gaussian-blurred image.
     """
-    x, y = np.meshgrid(np.linspace(-1, 1, height), np.linspace(-1, 1, width))
-    x2py2 = np.sqrt(x ** 2 + y ** 2)
+    k_y = (height - 1) // 2
+    k_x = (width - 1) // 2
+    x, y = np.meshgrid(np.linspace(-k_x, k_x, num=width), np.linspace(-k_y, k_y, num=height))
 
-    # lower normal part of gaussian
+    x2py2 = np.sqrt(x ** 2 + y ** 2)
     pre = 1 / (2.0 * np.pi * sigma ** 2)
 
-    # Calculating Gaussian filter
     gauss = np.exp(-0.5 * (x2py2 ** 2 / sigma ** 2)) * pre
 
-    return gauss
+    return gauss / np.sum(gauss)
 
 
 def low_pass(img: np.array, sigma: float, size):
@@ -126,6 +126,7 @@ def high_pass(img, sigma, size):
         Return an image of the same dimensions as the input image (same width,
         height and the number of color channels)
     """
+    # reminder: F + a(F - F * H)
     return img - low_pass(img, sigma, size)
 
 
