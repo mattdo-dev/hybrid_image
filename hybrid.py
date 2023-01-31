@@ -38,10 +38,8 @@ def cross_correlation_2d(img: np.array, kernel: np.array):
         height and the number of color channels)
     """
 
-    kernel_m_size = kernel.shape[0]
-    kernel_n_size = kernel.shape[1]
-    k_m = (kernel_m_size - 1) // 2
-    k_n = (kernel_n_size - 1) // 2
+    kernel_m_size, kernel_n_size = kernel.shape[:2]
+    k_m, k_n = (kernel_m_size - 1) // 2, (kernel_n_size - 1) // 2
     img_channels = 1 if img.ndim != 3 else 3
     if img_channels == 1:
         padded_image = np.pad(img, ((k_m, k_m), (k_n, k_n)), 'constant')
