@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 
-def _cc2d_2layer(new_img, kernel, padded_img):
+def _cc2d_2layer(new_img: np.array, kernel: np.array, padded_img: np.array):
     def _pp_kernel_sum(_ih, _iw):
         _new_pixel_value = 0
         for v in range(kernel.shape[0]):
@@ -19,7 +19,7 @@ def _cc2d_2layer(new_img, kernel, padded_img):
     return new_img
 
 
-def cross_correlation_2d(img, kernel):
+def cross_correlation_2d(img: np.array, kernel: np.array):
     """Given a kernel of arbitrary m x n dimensions, with both m and n being
     odd, compute the cross correlation of the given image with the given
     kernel, such that the output is of the same dimensions as the image and that
@@ -61,8 +61,8 @@ def cross_correlation_2d(img, kernel):
         return output_img
 
 
-def convolve_2d(img, kernel):
-    '''Use cross_correlation_2d() to carry out a 2D convolution.
+def convolve_2d(img: np.array, kernel: np.array):
+    """Use cross_correlation_2d() to carry out a 2D convolution.
 
     Inputs:
         img:    Either an RGB image (height x width x 3) or a grayscale image
@@ -73,13 +73,13 @@ def convolve_2d(img, kernel):
     Output:
         Return an image of the same dimensions as the input image (same width,
         height and the number of color channels)
-    '''
+    """
     kernel = np.flipud(np.fliplr(kernel))
     return cross_correlation_2d(img, kernel)
 
 
-def gaussian_blur_kernel_2d(sigma, height, width):
-    '''Return a Gaussian blur kernel of the given dimensions and with the given
+def gaussian_blur_kernel_2d(sigma: float, height: int, width: int):
+    """Return a Gaussian blur kernel of the given dimensions and with the given
     sigma. Note that width and height are different.
 
     Input:
@@ -92,47 +92,47 @@ def gaussian_blur_kernel_2d(sigma, height, width):
     Output:
         Return a kernel of dimensions height x width such that convolving it
         with an image results in a Gaussian-blurred image.
-    '''
+    """
+    x, y = np.meshgrid(np.linspace(-1, 1, height), np.linspace(-1, 1, width))
+    x2py2 = np.sqrt(x ** 2 + y ** 2)
 
-    gaussian_blur_kernel = np.zeros((height, width))
+    # lower normal part of gaussian
+    pre = 1 / (2.0 * np.pi * sigma ** 2)
 
-    # TODO-BLOCK-BEGIN
-    raise Exception("TODO in hybrid.py not implemented")
-    # TODO-BLOCK-END
+    # Calculating Gaussian filter
+    gauss = np.exp(-0.5 * (x2py2 ** 2 / sigma ** 2)) * pre
+
+    return gauss
 
 
-def low_pass(img, sigma, size):
-    '''Filter the image as if it's filtered with a low pass filter of the given
-    sigma and a square kernel of the given size. A low pass filter supresses
+def low_pass(img: np.array, sigma: float, size):
+    """Filter the image as if it's filtered with a low pass filter of the given
+    sigma and a square kernel of the given size. A low pass filter suppresses
     the higher frequency components (finer details) of the image.
 
     Output:
         Return an image of the same dimensions as the input image (same width,
         height and the number of color channels)
-    '''
-    # TODO-BLOCK-BEGIN
-    raise Exception("TODO in hybrid.py not implemented")
-    # TODO-BLOCK-END
+    """
+    return convolve_2d(img, gaussian_blur_kernel_2d(sigma, size, size))
 
 
 def high_pass(img, sigma, size):
-    '''Filter the image as if it's filtered with a high pass filter of the given
+    """Filter the image as if it's filtered with a high pass filter of the given
     sigma and a square kernel of the given size. A high pass filter suppresses
     the lower frequency components (coarse details) of the image.
 
     Output:
         Return an image of the same dimensions as the input image (same width,
         height and the number of color channels)
-    '''
-    # TODO-BLOCK-BEGIN
-    raise Exception("TODO in hybrid.py not implemented")
-    # TODO-BLOCK-END
+    """
+    return img - low_pass(img, sigma, size)
 
 
 def create_hybrid_image(img1, img2, sigma1, size1, high_low1, sigma2, size2,
                         high_low2, mixin_ratio, scale_factor):
-    '''This function adds two images to create a hybrid image, based on
-    parameters specified by the user.'''
+    """This function adds two images to create a hybrid image, based on
+    parameters specified by the user."""
     high_low1 = high_low1.lower()
     high_low2 = high_low2.lower()
 

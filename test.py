@@ -181,6 +181,8 @@ class TestGaussianKernel2D(unittest.TestCase):
                          [0.03995566, 0.0424179,  0.04327192, 0.0424179,  0.03995566],
                          [0.03916709, 0.04158074, 0.0424179,  0.04158074, 0.03916709],
                          [0.03689354, 0.03916709, 0.03995566, 0.03916709, 0.03689354]])
+
+        print(hybrid.gaussian_blur_kernel_2d(5, 5, 5))
         self.assertTrue(np.allclose(hybrid.gaussian_blur_kernel_2d(5, 5, 5), a, rtol=1e-4, atol=1e-08) 
             or np.allclose(hybrid.gaussian_blur_kernel_2d(5, 5, 5), a_alternate, rtol=1e-4, atol=1e-08))
 
