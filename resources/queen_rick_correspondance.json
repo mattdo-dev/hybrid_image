@@ -1,0 +1,32 @@
+{
+  "first_image": "C:/Users/Nobody/unc/590/hybrid_images/resources/queen.jpg",
+  "second_image": "C:/Users/Nobody/unc/590/hybrid_images/resources/rick.jpg",
+  "first_image_points": [
+    [
+      128.0,
+      182.5
+    ],
+    [
+      127.0,
+      228.5
+    ],
+    [
+      180.0,
+      208.5
+    ]
+  ],
+  "second_image_points": [
+    [
+      112.0,
+      172.0
+    ],
+    [
+      109.0,
+      215.0
+    ],
+    [
+      155.0,
+      193.0
+    ]
+  ]
+}
