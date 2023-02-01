@@ -5,12 +5,7 @@ import numpy as np
 
 def _cc2d_2layer(new_img: np.array, kernel: np.array, padded_img: np.array):
     def _pp_kernel_sum(_ih, _iw):
-        _new_pixel_value = 0
-        for v in range(kernel.shape[0]):
-            for u in range(kernel.shape[1]):
-                _new_pixel_value += kernel[v, u] * padded_img[_ih + v, _iw + u]
-
-        return _new_pixel_value
+        return np.multiply(kernel, padded_img[_ih: _ih + kernel.shape[0], _iw: _iw + kernel.shape[1]]).sum()
 
     for j in range(new_img.shape[0]):
         for i in range(new_img.shape[1]):
