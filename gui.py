@@ -9,7 +9,6 @@ import os
 sys.path.append('pyuiutils/')
 import pyuiutils.uiutils as uiutils
 from tkinter import filedialog, ttk
-import threading
 
 
 class ImageAlignmentFrame(uiutils.BaseFrame):
