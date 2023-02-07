@@ -43,7 +43,6 @@ def cross_correlation_2d(img: np.array, kernel: np.array):
 
     if img_channels == 1:
         output_img = _cc2d_2layer(output_img, kernel, padded_image)
-        print(output_img)
         return output_img
     else:
         for i in range(img_channels):
@@ -84,8 +83,7 @@ def gaussian_blur_kernel_2d(sigma: float, height: int, width: int):
         Return a kernel of dimensions height x width such that convolving it
         with an image results in a Gaussian-blurred image.
     """
-    k_y = (height - 1) // 2
-    k_x = (width - 1) // 2
+    k_y, k_x = (height - 1) // 2, (width - 1) // 2
     x, y = np.meshgrid(np.linspace(-k_x, k_x, num=width), np.linspace(-k_y, k_y, num=height))
 
     x2py2 = np.sqrt(x ** 2 + y ** 2)
